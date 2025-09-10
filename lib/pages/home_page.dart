@@ -224,14 +224,14 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         "Your BMI is ${bmiResult!.toStringAsFixed(1)}",
                         style: const TextStyle(
-                          fontSize: 2,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         "${userInfo.getBMICategory(bmiResult!)}",
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

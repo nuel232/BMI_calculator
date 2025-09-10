@@ -1,7 +1,19 @@
-class Info {
+import 'package:hive/hive.dart';
+
+part 'info.g.dart';
+
+@HiveType(typeId: 0)
+class Info extends HiveObject {
+  @HiveField(0)
   int Age;
+
+  @HiveField(1)
   int height;
+
+  @HiveField(2)
   int weight;
+
+  @HiveField(3)
   String? selectGender;
 
   Info({

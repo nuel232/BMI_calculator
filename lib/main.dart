@@ -1,7 +1,17 @@
+import 'package:bmi_calculator/models/info.dart';
 import 'package:bmi_calculator/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async {
+  //initialize hive
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(InfoAdapter());
+
+  //open the box
+  await Hive.openBox<Info>('myBMI');
+
   runApp(const MyApp());
 }
 

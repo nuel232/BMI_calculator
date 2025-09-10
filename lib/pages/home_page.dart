@@ -1,7 +1,9 @@
 import 'package:bmi_calculator/components/my_drawer.dart';
 import 'package:bmi_calculator/components/my_textfield.dart';
+import 'package:bmi_calculator/database/db.dart';
 import 'package:bmi_calculator/models/info.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -11,6 +13,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //reference the hive box
+  final _myBMI = Hive.box('myBMI');
+
+  BMIDatabase db = BMIDatabase();
+
   //text controller
   final TextEditingController heightController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
@@ -28,6 +35,9 @@ class _HomePageState extends State<HomePage> {
 
       //calculate bmi
       bmiResult = userInfo.calculateBMI();
+
+      //save to db
+      db.saveEntry(userInfo, bmiResult!, userInfo.getBMICategory(bmiResult!));
     });
   }
 
@@ -35,12 +45,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade500,
+
       appBar: AppBar(
         title: Text('BMI CALCULATOR'),
         backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
+
       drawer: MyDrawer(),
+
       body: Center(
         child: Container(
           // height: 470,
@@ -57,6 +70,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+
           child: Padding(
             padding: const EdgeInsets.only(
               right: 25,
@@ -85,6 +99,7 @@ class _HomePageState extends State<HomePage> {
 
                     //age controller
                     Expanded(child: MyTextfield(controller: ageController)),
+
                     SizedBox(width: 10),
 
                     Padding(
@@ -229,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Text(
-                        "${userInfo.getBMICategory(bmiResult!)}",
+                        "$userInfo.getBMICategory(bmiResult!)",
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

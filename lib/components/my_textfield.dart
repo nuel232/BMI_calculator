@@ -20,6 +20,7 @@ class MyTextfield extends StatelessWidget {
         fillColor: Colors.grey.shade300,
         filled: true,
       ),
+      keyboardType: TextInputType.number,
     );
   }
 }

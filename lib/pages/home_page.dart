@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/components/my_drawer.dart';
 import 'package:bmi_calculator/components/my_textfield.dart';
 import 'package:bmi_calculator/models/info.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,19 @@ class _HomePageState extends State<HomePage> {
 
   //instance of the userInfo
   Info userInfo = Info(Age: 0, height: 0, weight: 0, selectGender: null);
+  double? bmiResult;
 
   //submit method
-  void submit() {}
+  void submit() {
+    setState(() {
+      userInfo.height = int.tryParse(heightController.text) ?? 0;
+      userInfo.weight = int.tryParse(weightController.text) ?? 0;
+
+      //calculate bmi
+      bmiResult = userInfo.calculateBMI();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +40,10 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
+      drawer: MyDrawer(),
       body: Center(
         child: Container(
-          height: 470,
+          // height: 470,
           width: 320,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
@@ -53,6 +65,7 @@ class _HomePageState extends State<HomePage> {
               bottom: 15,
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 //Age
                 Row(
@@ -69,7 +82,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     SizedBox(width: 10),
-                    Expanded(child: MyTextfield(controller: weightController)),
+
+                    //age controller
+                    Expanded(child: MyTextfield(controller: ageController)),
                     SizedBox(width: 10),
 
                     Padding(
@@ -78,6 +93,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+
                 // Gender Selection
                 Padding(
                   padding: const EdgeInsets.only(top: 15, bottom: 15),
@@ -91,7 +107,10 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+
                       SizedBox(height: 10),
+
+                      //Male an female checkbox
                       Row(
                         children: [
                           Expanded(
@@ -108,6 +127,7 @@ class _HomePageState extends State<HomePage> {
                           ),
 
                           SizedBox(width: 20),
+
                           Expanded(
                             child: CheckboxListTile(
                               contentPadding: EdgeInsets.zero,
@@ -188,11 +208,35 @@ class _HomePageState extends State<HomePage> {
                 //submit button
                 ElevatedButton(
                   onPressed: submit,
+
                   child: Text(
                     'Submit',
                     style: TextStyle(color: Colors.grey[900], fontSize: 18),
                   ),
                 ),
+
+                SizedBox(width: 20),
+
+                //result
+                if (bmiResult != null)
+                  Column(
+                    children: [
+                      Text(
+                        "Your BMI is ${bmiResult!.toStringAsFixed(1)}",
+                        style: const TextStyle(
+                          fontSize: 2,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "${userInfo.getBMICategory(bmiResult!)}",
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),

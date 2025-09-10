@@ -48,4 +48,9 @@ class Info extends HiveObject {
       return "you are obesity Class III";
     }
   }
+
+  @override
+  String toString() {
+    return "Age: $Age, Height: ${height}cm, Weight: ${weight}kg, Gender: ${selectGender ?? 'N/A'}";
+  }
 }

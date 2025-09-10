@@ -10,7 +10,7 @@ void main() async {
   Hive.registerAdapter(InfoAdapter());
 
   //open the box
-  await Hive.openBox<Info>('myBMI');
+  await Hive.openBox('myBMI');
 
   runApp(const MyApp());
 }

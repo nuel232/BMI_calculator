@@ -244,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Text(
-                        "$userInfo.getBMICategory(bmiResult!)",
+                        "${userInfo.getBMICategory(bmiResult!)}",
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
